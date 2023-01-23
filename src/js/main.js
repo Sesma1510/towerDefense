@@ -1,4 +1,5 @@
 function startGameLoop() {
+  requestAnimationFrame(startGameLoop);
   // Clear al canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   loadMap(currentLevel);
@@ -6,8 +7,6 @@ function startGameLoop() {
   loadMap(currentLevel);
   // UFOs frame game loop para que se muevan mejor y se dibujen
   ufoGameLoop();
-  // Request another animation frame
-  requestAnimationFrame(startGameLoop);
 }
 
 //* Load Map
