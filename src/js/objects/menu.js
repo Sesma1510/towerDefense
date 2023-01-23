@@ -20,7 +20,7 @@ buttons.forEach(function (button) {
         startGameLoop();
         break;
       case "Home":
-        location.href = "index.html";
+        location.href = "/index.html";
         break;
       case "Next Level":
         currentLevel++;
@@ -36,12 +36,7 @@ canvasContainer.classList.add("container");
 
 //* Crear el canvas
 const canvas = document.createElement("canvas");
-canvas.width = 950;
-canvas.height = 900;
 
 //* Agregar el canvas a un container div
 document.body.appendChild(canvasContainer);
 canvasContainer.appendChild(canvas);
-
-//* Get Canvas Context
-const ctx = canvas.getContext("2d");

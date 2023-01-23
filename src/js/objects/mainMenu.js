@@ -3,9 +3,9 @@ div.classList.add("container-2");
 document.body.appendChild(div);
 
 const buttons = [
-  { text: "Play Game", url: "juego.html" },
-  { text: "Instructions", url: "instructions.html" },
-  { text: "Credits", url: "credits.html" },
+  { text: "Play Game", url: "/src/juego.html" },
+  { text: "Instructions", url: "/src/instructions.html" },
+  { text: "Credits", url: "/src/credits.html" },
 ];
 
 buttons.forEach(function (button) {
