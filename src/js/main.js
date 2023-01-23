@@ -26,7 +26,7 @@ function loadMap(level) {
   //* Dibujar la imagen del mapa en el canvas
   mapImage.onload = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(mapImage, 5, 2);
+    ctx.drawImage(mapImage, 0, 0);
   };
 }
 
