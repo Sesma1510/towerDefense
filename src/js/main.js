@@ -39,4 +39,8 @@ function gameLoop() {
   enemies.forEach((enemy) => {
     enemy.actualizar();
   });
+
+  zonas.forEach((zona) => {
+    zona.actualizar(mouse);
+  });
 }
