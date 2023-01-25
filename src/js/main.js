@@ -17,46 +17,108 @@ mapImages[0].src = "/src/assets/sprites/DiceMap.png"; // Asignar ruta de la imag
 const mapImage = mapImages[currentLevel - 1];
 
 //* Dibujar la imagen del mapa en el canvas
+//* Play-Pause
+let gameReady = false;
+let requestReference;
+let isRunning = false;
+
 mapImage.onload = () => {
-  gameLoop();
+  gameReady = true;
 };
 
 //* Enemigos
 const enemies = [];
-for (let i = 0; i < 10; i++) {
-  const xDelay = i * 150;
-  enemies.push(
-    new Enemy({ position: { x: waypoints[0].x - xDelay, y: waypoints[0].y } })
-  );
+let crearEnemigo = 5;
+createWave(crearEnemigo);
+
+function createWave(count) {
+  for (let i = 1; i < count + 1; i++) {
+    const xDelay = i * 150;
+    enemies.push(
+      new Enemy({ position: { x: waypoints[0].x - xDelay, y: waypoints[0].y } })
+    );
+  }
 }
+
+//* Vidas
+let vida = 10;
 
 //* Funcion para empezar el juego game Loop
 function gameLoop() {
-  requestAnimationFrame(gameLoop);
+  const gameLoopId = requestAnimationFrame(gameLoop);
+  requestReference = gameLoopId;
 
   //* Dibujar el mapa (game loop)
   ctx.drawImage(mapImage, 0, 0);
-  enemies.forEach((enemy) => {
+
+  //* Dibujar Enemigos
+  for (let i = enemies.length - 1; i >= 0; i--) {
+    const enemy = enemies[i];
     enemy.actualizar();
-  });
 
-  zonas.forEach((zona) => {
-    zona.actualizar(mouse);
-  });
+    //* Si los enemigos pasan la meta, resta 1 de vida
+    if (enemy.position.x > canvas.width) {
+      vida--;
+      console.log(vida);
+      enemies.splice(i, 1);
+      if (vida === 0) {
+        cancelAnimationFrame(gameLoopId);
+        canvas.classList.add("none");
+        div.classList.add("none");
+        gameOverBtn.classList.remove("none");
+      }
+    }
+  }
 
-  towers.forEach((tower) => {
-    tower.dibujarse();
+  //* Terminar oleada de enemigos y crear la siguiente con 2 enemigos mas
+  if (enemies.length === 0) {
+    crearEnemigo += 2;
+    createWave(crearEnemigo);
+  }
 
-    tower.balas.forEach((bala, i) => {
-      bala.actualizar();
-      //* Calcular distancia en X y Y entre el centro de la bala y el enemigo
-      const diffX = bala.enemy.center.x - bala.position.x;
-      const diffY = bala.enemy.center.y - bala.position.y;
-      const distancia = Math.hypot(diffX, diffY);
-      //* Colision de bala con enemigo
-      if (distancia < bala.enemy.radio + bala.radio) {
-        tower.balas.splice(i, 1);
+  //* Capacidad de crear torres donde ponga el mouse
+  if (isRunning) {
+    zonas.forEach((zona) => {
+      zona.actualizar(mouse);
+    });
+  }
+
+  if (isRunning) {
+    towers.forEach((tower) => {
+      tower.actualizar();
+      tower.blanco = null;
+      //* Disparar a los enemigos dentro del radio de la torre
+      const closeEnemy = enemies.filter((enemy) => {
+        const diffX = enemy.center.x - tower.center.x;
+        const diffY = enemy.center.y - tower.center.y;
+        const distancia = Math.hypot(diffX, diffY);
+        return distancia < enemy.radio + tower.radio;
+      });
+
+      tower.blanco = closeEnemy[0];
+
+      for (let i = tower.balas.length - 1; i >= 0; i--) {
+        const bala = tower.balas[i];
+
+        bala.actualizar();
+        //* Calcular distancia en X y Y entre el centro de la bala y el enemigo
+        const diffX = bala.enemy.center.x - bala.position.x;
+        const diffY = bala.enemy.center.y - bala.position.y;
+        const distancia = Math.hypot(diffX, diffY);
+
+        //* Colision de bala con enemigo y Eliminar enemigo si su vida es menor a 0
+        if (distancia < bala.enemy.radio + bala.radio) {
+          bala.enemy.vida -= 20;
+          if (bala.enemy.vida <= 0) {
+            const enemyIndex = enemies.findIndex((enemy) => {
+              return bala.enemy === enemy;
+            });
+            if (enemyIndex > -1) enemies.splice(enemyIndex, 1);
+          }
+
+          tower.balas.splice(i, 1);
+        }
       }
     });
-  });
+  }
 }
