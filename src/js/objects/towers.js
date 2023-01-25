@@ -39,7 +39,6 @@ canvas.addEventListener("click", (e) => {
     );
     activeTower.isOverlap = true;
   }
-  console.log(towers);
 });
 
 //* Event Listener, cuando hago click con el mouse en el mapa
