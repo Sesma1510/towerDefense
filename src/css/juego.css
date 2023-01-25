@@ -25,6 +25,10 @@ button {
   border: none;
 }
 
+canvas {
+  position: relative;
+}
+
 div[class*="container"] {
   text-align: center;
   width: 100%;

@@ -34,7 +34,7 @@ for (let i = 0; i < 10; i++) {
 function gameLoop() {
   requestAnimationFrame(gameLoop);
 
-  //* Dibujar el mapa
+  //* Dibujar el mapa (game loop)
   ctx.drawImage(mapImage, 0, 0);
   enemies.forEach((enemy) => {
     enemy.actualizar();
@@ -42,5 +42,21 @@ function gameLoop() {
 
   zonas.forEach((zona) => {
     zona.actualizar(mouse);
+  });
+
+  towers.forEach((tower) => {
+    tower.dibujarse();
+
+    tower.balas.forEach((bala, i) => {
+      bala.actualizar();
+      //* Calcular distancia en X y Y entre el centro de la bala y el enemigo
+      const diffX = bala.enemy.center.x - bala.position.x;
+      const diffY = bala.enemy.center.y - bala.position.y;
+      const distancia = Math.hypot(diffX, diffY);
+      //* Colision de bala con enemigo
+      if (distancia < bala.enemy.radio + bala.radio) {
+        tower.balas.splice(i, 1);
+      }
+    });
   });
 }

@@ -1,33 +1,3 @@
-//* Clase zona de construccion de torres
-class constructionZone {
-  constructor({ position = { x: 0, y: 0 } }) {
-    this.position = position;
-    this.size = 96;
-    this.color = "rgba(20,100,255,.3)";
-  }
-
-  dibujarse() {
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.position.x, this.position.y, this.size, this.size);
-  }
-
-  actualizar(mouse) {
-    this.dibujarse();
-
-    if (
-      mouse.x > this.position.x &&
-      mouse.x < this.position.x + this.size &&
-      mouse.y > this.position.y &&
-      mouse.y < this.position.y + this.size
-    ) {
-      console.log("colliding");
-      this.color = "green";
-    } else {
-      this.color = "rgba(20,100,255,.3)";
-    }
-  }
-}
-
 const dataConstructionZone = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 8, 8, 0, 8,
   8, 0, 8, 0, 0, 8, 0, 8, 0, 0, 0, 0, 0, 0, 8, 0, 8, 8, 0, 0, 8, 8, 8, 0, 8, 8,
@@ -53,12 +23,45 @@ zonasArr2D.forEach((row, y) => {
   });
 });
 
+//* Array de torres
+const towers = [];
+let activeTower = undefined;
+
+canvas.addEventListener("click", (e) => {
+  if (activeTower && !activeTower.isOverlap) {
+    towers.push(
+      new Tower({
+        position: {
+          x: activeTower.position.x,
+          y: activeTower.position.y,
+        },
+      })
+    );
+    activeTower.isOverlap = true;
+  }
+  console.log(towers);
+});
+
 //* Event Listener, cuando hago click con el mouse en el mapa
-//* Le doy un offset de 128 px en X Y porque el elemento esta desalineado
+//* Le doy un offset para que independientemente del viewport quede bien pocisionado
 
 const mouse = { x: undefined, y: undefined };
 
 window.addEventListener("mousemove", (e) => {
-  mouse.x = e.clientX - 128;
-  mouse.y = e.clientY - 128;
+  mouse.x = e.offsetX;
+  mouse.y = e.offsetY;
+
+  activeTower = null;
+  for (let i = 0; i < zonas.length; i++) {
+    const tile = zonas[i];
+    if (
+      mouse.x > tile.position.x &&
+      mouse.x < tile.position.x + tile.size &&
+      mouse.y > tile.position.y &&
+      mouse.y < tile.position.y + tile.size
+    ) {
+      activeTower = tile;
+      break;
+    }
+  }
 });
