@@ -43,6 +43,10 @@ function createWave(count) {
 //* Vidas
 let vida = 10;
 
+// //* HUD values
+const hudValue = { position: { x: 100, y: 450 } };
+let huds = new hud(hudValue);
+
 //* Funcion para empezar el juego game Loop
 function gameLoop() {
   const gameLoopId = requestAnimationFrame(gameLoop);
@@ -58,14 +62,22 @@ function gameLoop() {
 
     //* Si los enemigos pasan la meta, resta 1 de vida
     if (enemy.position.x > canvas.width) {
-      vida--;
+      vida -= 1;
+      vidas.innerText = vida;
+      corazonesContainer.removeChild(corazonesContainer.firstChild);
       console.log(vida);
       enemies.splice(i, 1);
       if (vida === 0) {
         cancelAnimationFrame(gameLoopId);
         canvas.classList.add("none");
         div.classList.add("none");
-        gameOverBtn.classList.remove("none");
+        canvasContainer.classList.remove("canvasDad");
+        playAgainBtn.classList.remove("none");
+        gameOver.classList.remove("none");
+        corazonesContainer.classList.add("none");
+        vidas.classList.add("none");
+        moneda.classList.add("none");
+        dinero.classList.add("none");
       }
     }
   }
@@ -77,48 +89,49 @@ function gameLoop() {
   }
 
   //* Capacidad de crear torres donde ponga el mouse
-  if (isRunning) {
-    zonas.forEach((zona) => {
-      zona.actualizar(mouse);
+
+  zonas.forEach((zona) => {
+    zona.actualizar(mouse);
+  });
+
+  towers.forEach((tower) => {
+    tower.actualizar();
+    tower.blanco = null;
+    //* Disparar a los enemigos dentro del radio de la torre
+    const closeEnemy = enemies.filter((enemy) => {
+      const diffX = enemy.center.x - tower.center.x;
+      const diffY = enemy.center.y - tower.center.y;
+      const distancia = Math.hypot(diffX, diffY);
+      return distancia < enemy.radio + tower.radio;
     });
-  }
 
-  if (isRunning) {
-    towers.forEach((tower) => {
-      tower.actualizar();
-      tower.blanco = null;
-      //* Disparar a los enemigos dentro del radio de la torre
-      const closeEnemy = enemies.filter((enemy) => {
-        const diffX = enemy.center.x - tower.center.x;
-        const diffY = enemy.center.y - tower.center.y;
-        const distancia = Math.hypot(diffX, diffY);
-        return distancia < enemy.radio + tower.radio;
-      });
+    tower.blanco = closeEnemy[0];
 
-      tower.blanco = closeEnemy[0];
+    for (let i = tower.balas.length - 1; i >= 0; i--) {
+      const bala = tower.balas[i];
 
-      for (let i = tower.balas.length - 1; i >= 0; i--) {
-        const bala = tower.balas[i];
+      bala.actualizar();
+      //* Calcular distancia en X y Y entre el centro de la bala y el enemigo
+      const diffX = bala.enemy.center.x - bala.position.x;
+      const diffY = bala.enemy.center.y - bala.position.y;
+      const distancia = Math.hypot(diffX, diffY);
 
-        bala.actualizar();
-        //* Calcular distancia en X y Y entre el centro de la bala y el enemigo
-        const diffX = bala.enemy.center.x - bala.position.x;
-        const diffY = bala.enemy.center.y - bala.position.y;
-        const distancia = Math.hypot(diffX, diffY);
-
-        //* Colision de bala con enemigo y Eliminar enemigo si su vida es menor a 0
-        if (distancia < bala.enemy.radio + bala.radio) {
-          bala.enemy.vida -= 20;
-          if (bala.enemy.vida <= 0) {
-            const enemyIndex = enemies.findIndex((enemy) => {
-              return bala.enemy === enemy;
-            });
-            if (enemyIndex > -1) enemies.splice(enemyIndex, 1);
+      //* Colision de bala con enemigo y Eliminar enemigo si su vida es menor a 0
+      if (distancia < bala.enemy.radio + bala.radio) {
+        bala.enemy.vida -= 20;
+        if (bala.enemy.vida <= 0) {
+          const enemyIndex = enemies.findIndex((enemy) => {
+            return bala.enemy === enemy;
+          });
+          if (enemyIndex > -1) {
+            enemies.splice(enemyIndex, 1);
+            monedas += 25;
+            dinero.innerHTML = monedas;
           }
-
-          tower.balas.splice(i, 1);
         }
+
+        tower.balas.splice(i, 1);
       }
-    });
-  }
+    }
+  });
 }

@@ -23,21 +23,26 @@ zonasArr2D.forEach((row, y) => {
   });
 });
 
-//* Array de torres
+//* Array de torres y dinero
 const towers = [];
+let monedas = 100;
 let activeTower = undefined;
 
 canvas.addEventListener("click", (e) => {
-  if (activeTower && !activeTower.isOverlap) {
-    towers.push(
-      new Tower({
-        position: {
-          x: activeTower.position.x,
-          y: activeTower.position.y,
-        },
-      })
-    );
-    activeTower.isOverlap = true;
+  if (isRunning) {
+    if (activeTower && !activeTower.isOverlap && monedas - 50 >= 0) {
+      monedas -= 50;
+      dinero.innerText = monedas;
+      towers.push(
+        new Tower({
+          position: {
+            x: activeTower.position.x,
+            y: activeTower.position.y,
+          },
+        })
+      );
+      activeTower.isOverlap = true;
+    }
   }
 });
 

@@ -3,7 +3,7 @@ class constructionZone {
   constructor({ position = { x: 0, y: 0 } }) {
     this.position = position;
     this.size = 96;
-    this.color = "rgba(20,100,255,.3)";
+    this.color = "rgba(20,100,255,0)";
     this.overlap = false;
   }
 
@@ -21,9 +21,9 @@ class constructionZone {
       mouse.y > this.position.y &&
       mouse.y < this.position.y + this.size
     ) {
-      this.color = "green";
+      this.color = "rgba(0,164,42,0.4)";
     } else {
-      this.color = "rgba(20,100,255,.3)";
+      this.color = "rgba(0,164,42,0)";
     }
   }
 }
@@ -50,7 +50,7 @@ class Tower {
 
     ctx.beginPath();
     ctx.arc(this.center.x, this.center.y, this.radio, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(0,0,255,0.2)";
+    ctx.fillStyle = "rgba(0,0,255,0)";
     ctx.fill();
   }
 
@@ -83,7 +83,6 @@ class Balas {
     this.radio = 5;
     this.enemy = enemy;
   }
-  ß;
   //* Dibujar Balas
   dibujarse() {
     ctx.beginPath();
@@ -160,7 +159,7 @@ class Enemy {
     const distanciaY = waypoint.y - this.center.y;
     const distanciaX = waypoint.x - this.center.x;
     const angulo = Math.atan2(distanciaY, distanciaX);
-    const velocidad = 10;
+    const velocidad = 1;
 
     //* Velocidad de mis enemigos
     this.velocidad.x = Math.cos(angulo) * velocidad;
@@ -184,5 +183,35 @@ class Enemy {
     ) {
       this.waypointIndex++;
     }
+  }
+}
+
+//* Clase HUD
+class hud {
+  constructor(position = { x: 0, y: 0 }) {
+    this.position = position;
+    this.width = 400;
+    this.height = 1000;
+    this.healthBar = "/src/assets/sprites/playerHealthBar.png";
+    this.score = null;
+    this.dinero = null;
+  }
+
+  dibujarse() {
+    //* Barra de Vida
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    // ctx.fillStyle = "green";
+    // ctx.fillRect(
+    //   this.position.x - this.width / 2,
+    //   this.position.y - this.height / 2,
+    //   (this.width * this.vida) / 100,
+    //   5
+    // );
+  }
+
+  actualizar() {
+    this.dibujarse();
   }
 }
