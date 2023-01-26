@@ -45,7 +45,6 @@ let vida = 10;
 
 // //* HUD values
 const hudValue = { position: { x: 100, y: 450 } };
-let huds = new hud(hudValue);
 
 //* Funcion para empezar el juego game Loop
 function gameLoop() {
