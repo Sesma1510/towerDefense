@@ -186,32 +186,32 @@ class Enemy {
   }
 }
 
-//* Clase HUD
-class hud {
-  constructor(position = { x: 0, y: 0 }) {
-    this.position = position;
-    this.width = 400;
-    this.height = 1000;
-    this.healthBar = "/src/assets/sprites/playerHealthBar.png";
-    this.score = null;
-    this.dinero = null;
-  }
+// //* Clase HUD
+// class hud {
+//   constructor(position = { x: 0, y: 0 }) {
+//     this.position = position;
+//     this.width = 400;
+//     this.height = 1000;
+//     this.healthBar = "./src/assets/sprites/playerHealthBar.png";
+//     this.score = null;
+//     this.dinero = null;
+//   }
 
-  dibujarse() {
-    //* Barra de Vida
-    ctx.fillStyle = "red";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+//   dibujarse() {
+//     //* Barra de Vida
+//     ctx.fillStyle = "red";
+//     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 
-    // ctx.fillStyle = "green";
-    // ctx.fillRect(
-    //   this.position.x - this.width / 2,
-    //   this.position.y - this.height / 2,
-    //   (this.width * this.vida) / 100,
-    //   5
-    // );
-  }
+//     // ctx.fillStyle = "green";
+//     // ctx.fillRect(
+//     //   this.position.x - this.width / 2,
+//     //   this.position.y - this.height / 2,
+//     //   (this.width * this.vida) / 100,
+//     //   5
+//     // );
+//   }
 
-  actualizar() {
-    this.dibujarse();
-  }
-}
+//   actualizar() {
+//     this.dibujarse();
+//   }
+// }

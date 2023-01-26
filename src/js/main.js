@@ -8,7 +8,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 //* Load Map
 let currentLevel = 1; // Nivel actual
 const mapImages = [new Image()]; // Array de imágenes de mapas
-mapImages[0].src = "/src/assets/sprites/DiceMap.png"; // Asignar ruta de la imagen para el primer nivel
+mapImages[0].src = "./src/assets/sprites/DiceMap.png"; // Asignar ruta de la imagen para el primer nivel
 
 // //* Asignar el nivel actual
 // currentLevel = level;

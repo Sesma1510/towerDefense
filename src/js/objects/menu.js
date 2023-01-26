@@ -30,7 +30,7 @@ buttons.forEach(function (button) {
         }
         break;
       case "Home":
-        location.href = "/index.html";
+        location.href = "./index.html";
         break;
     }
   });
@@ -78,7 +78,7 @@ const corazonesContainer = document.createElement("div");
 corazonesContainer.classList.add("hud2");
 for (let i = 0; i < 10; i++) {
   const corazon = document.createElement("img");
-  corazon.src = "/src/assets/sprites/heart.png";
+  corazon.src = "./src/assets/sprites/heart.png";
   corazonesContainer.appendChild(corazon);
 }
 canvasContainer.appendChild(corazonesContainer);
@@ -91,5 +91,5 @@ canvasContainer.appendChild(dinero);
 //* Monedas
 const moneda = document.createElement("img");
 moneda.classList.add("hud4");
-moneda.src = "/src/assets/sprites/coin.png";
+moneda.src = "./src/assets/sprites/coin.png";
 corazonesContainer.appendChild(moneda);
