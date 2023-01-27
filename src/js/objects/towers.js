@@ -25,14 +25,14 @@ zonasArr2D.forEach((row, y) => {
 
 //* Array de torres y dinero
 const towers = [];
-let monedas = 100;
+let dinero = 100;
 let activeTower = undefined;
 
 canvas.addEventListener("click", (e) => {
   if (isRunning) {
-    if (activeTower && !activeTower.isOverlap && monedas - 50 >= 0) {
-      monedas -= 50;
-      dinero.innerText = monedas;
+    if (activeTower && !activeTower.isOverlap && dinero - 50 >= 0) {
+      dinero -= 50;
+      monedas.innerText = dinero;
       towers.push(
         new Tower({
           position: {

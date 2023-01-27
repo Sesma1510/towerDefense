@@ -438,7 +438,7 @@ button::-moz-focus-inner {
 }
 
 .box:not(:first-child) {
-  height: 25rem;
+  height: 5rem;
 }
 
 .box__title {

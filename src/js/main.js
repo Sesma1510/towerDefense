@@ -41,7 +41,7 @@ function createWave(count) {
 }
 
 //* Vidas
-let vida = 10;
+let vidas = 5;
 
 //* Explosiones
 const explosiones = [];
@@ -61,22 +61,21 @@ function gameLoop() {
 
     //* Si los enemigos pasan la meta, resta 1 de vida
     if (enemy.position.x > canvas.width) {
-      vida -= 1;
-      vidas.innerText = vida;
-      corazonesContainer.removeChild(corazonesContainer.firstChild);
-      console.log(vida);
+      vidas -= 1;
       enemies.splice(i, 1);
-      if (vida === 0) {
+      vida.innerHTML = vidas;
+      if (vidas === 0) {
         cancelAnimationFrame(gameLoopId);
         canvas.classList.add("none");
-        div.classList.add("none");
-        canvasContainer.classList.remove("canvasDad");
+        play.classList.add("none");
+        home.classList.add("none");
         playAgainBtn.classList.remove("none");
         gameOver.classList.remove("none");
-        corazonesContainer.classList.add("none");
+        corazonIcon.classList.add("none");
         vida.classList.add("none");
-        moneda.classList.add("none");
-        dinero.classList.add("none");
+        monedas.classList.add("none");
+        monedaIcon.classList.add("none");
+        hud.style.background("transparent");
       }
     }
   }
@@ -133,8 +132,8 @@ function gameLoop() {
           });
           if (enemyIndex > -1) {
             enemies.splice(enemyIndex, 1);
-            monedas += 5;
-            dinero.innerHTML = monedas;
+            dinero += 5;
+            monedas.innerHTML = dinero;
           }
         }
         explosiones.push(
