@@ -136,7 +136,7 @@ class Balas extends Sprite {
   constructor({ position = { x: 0, y: 0 }, enemy }) {
     super({
       position,
-      imageSrc: "../../../assets/sprites/bullet.png",
+      imageSrc: "../assets/sprites/bullet.png",
       frames: { max: 4 },
     });
     this.velocidad = {
