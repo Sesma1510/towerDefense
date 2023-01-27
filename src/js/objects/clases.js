@@ -1,3 +1,57 @@
+//* Class Sprites
+class Sprite {
+  constructor({
+    position = { x: 0, y: 0 },
+    imageSrc,
+    frames = { max: 1 },
+    offset = { x: 0, y: 0 },
+  }) {
+    this.position = position;
+    this.image = new Image();
+    this.image.src = imageSrc;
+    this.frames = {
+      max: frames.max,
+      actual: 0,
+      tiempo: 0,
+      esperar: 4,
+    };
+    this.offset = offset;
+  }
+
+  dibujarse() {
+    const cropWidth = this.image.width / this.frames.max;
+    const crop = {
+      position: {
+        x: cropWidth * this.frames.actual,
+        y: 0,
+      },
+      width: cropWidth,
+      height: this.image.height,
+    };
+    ctx.drawImage(
+      this.image,
+      crop.position.x,
+      crop.position.y,
+      crop.width,
+      crop.height,
+      this.position.x + this.offset.x,
+      this.position.y + this.offset.y,
+      crop.width,
+      crop.height
+    );
+  }
+  //* Animacion del sprite
+  actualizar() {
+    this.frames.tiempo++;
+    if (this.frames.tiempo % this.frames.esperar === 0) {
+      this.frames.actual++;
+      if (this.frames.actual >= this.frames.max) {
+        this.frames.actual = 0;
+      }
+    }
+  }
+}
+
 //* Clase zona de construccion de torres
 class constructionZone {
   constructor({ position = { x: 0, y: 0 } }) {
@@ -29,9 +83,15 @@ class constructionZone {
 }
 
 //* Clase Torre
-class Tower {
+class Tower extends Sprite {
   constructor({ position = { x: 0, y: 0 } }) {
-    this.position = position;
+    super({
+      position,
+      imageSrc: "../assets/sprites/tower.png",
+      frames: { max: 1 },
+      offset: { x: 32, y: 32 },
+    });
+    // this.position = position;
     this.width = 96;
     this.height = 96;
     this.center = {
@@ -45,13 +105,12 @@ class Tower {
   }
 
   dibujarse() {
-    ctx.fillStyle = "blue";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    super.dibujarse();
 
-    ctx.beginPath();
-    ctx.arc(this.center.x, this.center.y, this.radio, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(0,0,255,0)";
-    ctx.fill();
+    // ctx.beginPath();
+    // ctx.arc(this.center.x, this.center.y, this.radio, 0, Math.PI * 2);
+    // ctx.fillStyle = "rgba(0,0,255,0.1)";
+    // ctx.fill();
   }
 
   actualizar() {
@@ -73,9 +132,13 @@ class Tower {
 
 //* Clase Balas
 
-class Balas {
+class Balas extends Sprite {
   constructor({ position = { x: 0, y: 0 }, enemy }) {
-    this.position = position;
+    super({
+      position,
+      imageSrc: "../assets/sprites/bullet.png",
+      frames: { max: 4 },
+    });
     this.velocidad = {
       x: 0,
       y: 0,
@@ -83,16 +146,8 @@ class Balas {
     this.radio = 5;
     this.enemy = enemy;
   }
-  //* Dibujar Balas
-  dibujarse() {
-    ctx.beginPath();
-    //* Balas redondas
-    ctx.arc(this.position.x, this.position.y, this.radio, 0, Math.PI * 2);
-    ctx.fillStyle = "yellow";
-    ctx.fill();
-  }
 
-  //* velocidad y angulo de las balas (seguir enemigos)
+  //* velocidad y angulo de las balas (seguir enemigos) (dibujarse viene de sprites class)
   actualizar() {
     this.dibujarse();
 
@@ -112,8 +167,13 @@ class Balas {
 
 //*Clase Enemigos
 
-class Enemy {
+class Enemy extends Sprite {
   constructor({ position = { x: 0, y: 0 } }) {
+    super({
+      position,
+      imageSrc: "../assets/sprites/enemigo1.png",
+      frames: { max: 1 },
+    });
     this.position = position;
     this.width = 32;
     this.height = 32;
@@ -129,15 +189,11 @@ class Enemy {
 
   //* Dibujar enemigos
   dibujarse() {
-    ctx.fillStyle = "red";
-    ctx.beginPath();
-    ctx.arc(this.position.x, this.position.y, this.radio, 0, Math.PI * 2);
-    ctx.fill();
-
+    super.dibujarse();
     //* Barra de Vida
     ctx.fillStyle = "red";
     ctx.fillRect(
-      this.position.x - this.width / 2,
+      this.position.x - this.width + 60 / 2,
       this.position.y - this.height / 2,
       this.width,
       5
@@ -145,7 +201,7 @@ class Enemy {
 
     ctx.fillStyle = "green";
     ctx.fillRect(
-      this.position.x - this.width / 2,
+      this.position.x - this.width + 60 / 2,
       this.position.y - this.height / 2,
       (this.width * this.vida) / 100,
       5
@@ -185,33 +241,3 @@ class Enemy {
     }
   }
 }
-
-// //* Clase HUD
-// class hud {
-//   constructor(position = { x: 0, y: 0 }) {
-//     this.position = position;
-//     this.width = 400;
-//     this.height = 1000;
-//     this.healthBar = "./src/assets/sprites/playerHealthBar.png";
-//     this.score = null;
-//     this.dinero = null;
-//   }
-
-//   dibujarse() {
-//     //* Barra de Vida
-//     ctx.fillStyle = "red";
-//     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-//     // ctx.fillStyle = "green";
-//     // ctx.fillRect(
-//     //   this.position.x - this.width / 2,
-//     //   this.position.y - this.height / 2,
-//     //   (this.width * this.vida) / 100,
-//     //   5
-//     // );
-//   }
-
-//   actualizar() {
-//     this.dibujarse();
-//   }
-// }

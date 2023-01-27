@@ -8,7 +8,7 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 //* Load Map
 let currentLevel = 1; // Nivel actual
 const mapImages = [new Image()]; // Array de imágenes de mapas
-mapImages[0].src = "./src/assets/sprites/DiceMap.png"; // Asignar ruta de la imagen para el primer nivel
+mapImages[0].src = "../assets/sprites/DiceMap.png"; // Asignar ruta de la imagen para el primer nivel
 
 // //* Asignar el nivel actual
 // currentLevel = level;
@@ -43,8 +43,8 @@ function createWave(count) {
 //* Vidas
 let vida = 10;
 
-// //* HUD values
-const hudValue = { position: { x: 100, y: 450 } };
+//* Explosiones
+const explosiones = [];
 
 //* Funcion para empezar el juego game Loop
 function gameLoop() {
@@ -74,16 +74,25 @@ function gameLoop() {
         playAgainBtn.classList.remove("none");
         gameOver.classList.remove("none");
         corazonesContainer.classList.add("none");
-        vidas.classList.add("none");
+        vida.classList.add("none");
         moneda.classList.add("none");
         dinero.classList.add("none");
       }
     }
   }
 
+  for (let i = explosiones.length - 1; i >= 0; i--) {
+    const explosion = explosiones[i];
+    explosion.dibujarse();
+    explosion.actualizar();
+    if (explosion.frames.actual >= explosion.frames.max - 1) {
+      explosiones.splice(i, 1);
+    }
+  }
+
   //* Terminar oleada de enemigos y crear la siguiente con 2 enemigos mas
   if (enemies.length === 0) {
-    crearEnemigo += 2;
+    crearEnemigo += 5;
     createWave(crearEnemigo);
   }
 
@@ -117,18 +126,25 @@ function gameLoop() {
 
       //* Colision de bala con enemigo y Eliminar enemigo si su vida es menor a 0
       if (distancia < bala.enemy.radio + bala.radio) {
-        bala.enemy.vida -= 20;
+        bala.enemy.vida -= 15;
         if (bala.enemy.vida <= 0) {
           const enemyIndex = enemies.findIndex((enemy) => {
             return bala.enemy === enemy;
           });
           if (enemyIndex > -1) {
             enemies.splice(enemyIndex, 1);
-            monedas += 25;
+            monedas += 5;
             dinero.innerHTML = monedas;
           }
         }
-
+        explosiones.push(
+          new Sprite({
+            position: { x: bala.position.x, y: bala.position.y },
+            imageSrc: "../assets/sprites/explosion.png",
+            frames: { max: 8 },
+            offset: { x: -5, y: -10 },
+          })
+        );
         tower.balas.splice(i, 1);
       }
     }

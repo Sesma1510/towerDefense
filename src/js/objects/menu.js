@@ -21,6 +21,10 @@ buttons.forEach(function (button) {
           if (!isRunning) {
             buttonDiv.innerText = "Pause";
             gameLoop();
+            vidas.classList.remove("none");
+            corazonesContainer.classList.remove("none");
+            dinero.classList.remove("none");
+            moneda.classList.remove("none");
             isRunning = true;
           } else {
             cancelAnimationFrame(requestReference);
@@ -30,7 +34,7 @@ buttons.forEach(function (button) {
         }
         break;
       case "Home":
-        location.href = "./index.html";
+        location.href = "../index.html";
         break;
     }
   });
@@ -69,27 +73,27 @@ canvasContainer.appendChild(gameOver);
 
 // //* Agrega div de Vidas
 const vidas = document.createElement("div");
-vidas.classList.add("hud");
+vidas.classList.add("hud", "none");
 vidas.innerText = "10";
 canvasContainer.appendChild(vidas);
 
 // //* Agrega 10 Corazones
 const corazonesContainer = document.createElement("div");
-corazonesContainer.classList.add("hud2");
+corazonesContainer.classList.add("hud2", "none");
 for (let i = 0; i < 10; i++) {
   const corazon = document.createElement("img");
-  corazon.src = "./src/assets/sprites/heart.png";
+  corazon.src = "../assets/sprites/heart.png";
   corazonesContainer.appendChild(corazon);
 }
 canvasContainer.appendChild(corazonesContainer);
 
 // //* Agrega div de Dinero
 const dinero = document.createElement("div");
-dinero.classList.add("hud3");
+dinero.classList.add("hud3", "none");
 dinero.innerText = "100";
 canvasContainer.appendChild(dinero);
 //* Monedas
 const moneda = document.createElement("img");
-moneda.classList.add("hud4");
-moneda.src = "./src/assets/sprites/coin.png";
+moneda.classList.add("hud4", "none");
+moneda.src = "../assets/sprites/coin.png";
 corazonesContainer.appendChild(moneda);
