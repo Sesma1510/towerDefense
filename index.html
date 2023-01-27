@@ -13,15 +13,76 @@
       href="https://fonts.googleapis.com/css2?family=K2D&family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="./src/css/index.css" />
   </head>
   <body>
-    <div class="lines">
-      <div class="line"></div>
-      <div class="line"></div>
-      <div class="line"></div>
+    <!-- <a href="./src/juego.html">
+      <button>Play Game</button>
+    </a> -->
+    <!-- modal 1 -->
+    <div class="box">
+      <a href="#m1-o" class="link-1" id="m1-c">Instrucciones</a>
+      <p class="box__info"></p>
+      <div
+        class="modal-container"
+        id="m1-o"
+        style="--m-background: transparent"
+      >
+        <div class="modal">
+          <h1 class="modal__title">Circuit Tower Defense</h1>
+          <p class="modal__text">
+            * Solo usa el click izquierdo para construir torres donde quieras
+            <br />
+            * El objetivo del juego es evitar que los enemigos lleguen al final
+            de el camino colocando torres en el camino.
+            <br />
+            * Comienzas con una cierta cantidad de dinero y debes usarla para
+            comprar y mejorar torres.
+            <br />
+            * Las torres atacarán automáticamente a los enemigos cuando pasen.
+            <br />
+            * A medida que avances por los niveles, los enemigos se volverán más
+            fuertes y tendrás que mejorar tus torres para mantenerte vivo.
+            <br />
+            * Sea estratégico en la ubicación y actualización de su torre, ya
+            que sus recursos son limitados.
+            <br />
+            * Vigila tus vidas y si llegan a cero, el juego termina.
+            <br />
+            * A medida que avances por los niveles, ganarás oro que podrás usar
+            para comprar nuevas torres
+          </p>
+          <a href="#m1-c" class="link-2"></a>
+        </div>
+      </div>
     </div>
+    <!-- /modal 1 -->
+    <!-- modal 2 -->
+    <div class="box">
+      <a href="./src/juego.html" class="link-1" id="m1-c">Play Game</a>
+      <p class="box__info"></p>
+      <div
+        class="modal-container"
+        id="m1-o"
+        style="--m-background: transparent"
+      ></div>
+    </div>
+    <!-- /modal 2 -->
+    <div class="light x1"></div>
+    <div class="light x2"></div>
+    <div class="light x3"></div>
+    <div class="light x4"></div>
+    <div class="light x5"></div>
+    <div class="light x6"></div>
+    <div class="light x7"></div>
+    <div class="light x8"></div>
+    <div class="light x9"></div>
+
     <script src="./src/js/objects/mainMenu.js"></script>
   </body>
 </html>
