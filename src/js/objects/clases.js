@@ -83,6 +83,12 @@ class constructionZone {
 }
 
 //* Clase Torre
+
+let shootingSound = new Audio("../../assets/sounds/shooting.mp3");
+let impactSound = new Audio("../../assets/sounds/impact.mp3");
+
+shootingSound.volume = 0.1;
+
 class Tower extends Sprite {
   constructor({ position = { x: 0, y: 0 } }) {
     super({
@@ -126,6 +132,14 @@ class Tower extends Sprite {
           enemy: this.blanco,
         })
       );
+      let sound = shootingSound.cloneNode();
+      sound.play();
+
+      // Detener el sonido después de 0.5 segundos
+      setTimeout(() => {
+        sound.pause();
+        sound.currentTime = 0;
+      }, 150);
     }
   }
 }
@@ -156,7 +170,7 @@ class Balas extends Sprite {
       this.enemy.center.x - this.position.x
     );
     //* Que tan rapido quiero que vaya la bala
-    const bulletSpeed = 4;
+    const bulletSpeed = 6;
     this.velocidad.x = Math.cos(angulo) * bulletSpeed;
     this.velocidad.y = Math.sin(angulo) * bulletSpeed;
 
@@ -168,7 +182,7 @@ class Balas extends Sprite {
 //*Clase Enemigos
 
 class Enemy extends Sprite {
-  constructor({ position = { x: 0, y: 0 } }) {
+  constructor({ position = { x: 0, y: 0 }, oleada = 0 }) {
     super({
       position,
       imageSrc: "../assets/sprites/enemigo1.png",
@@ -184,6 +198,7 @@ class Enemy extends Sprite {
     };
     this.radio = 16;
     this.vida = 100;
+    this.oleada = oleada;
     this.velocidad = { x: 0, y: 0 };
   }
 
@@ -215,7 +230,8 @@ class Enemy extends Sprite {
     const distanciaY = waypoint.y - this.center.y;
     const distanciaX = waypoint.x - this.center.x;
     const angulo = Math.atan2(distanciaY, distanciaX);
-    const velocidad = 1.5;
+    const incrementoDeVelocidad = Math.floor(contadorDeOleadas / 3) * 0.5;
+    const velocidad = 1.5 + incrementoDeVelocidad;
 
     //* Velocidad de mis enemigos
     this.velocidad.x = Math.cos(angulo) * velocidad;

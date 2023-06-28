@@ -29,15 +29,21 @@ mapImage.onload = () => {
 //* Enemigos
 const enemies = [];
 let crearEnemigo = 5;
+let contadorDeOleadas = 0;
 createWave(crearEnemigo);
 
 function createWave(count) {
   for (let i = 1; i < count + 1; i++) {
     const xDelay = i * 150;
     enemies.push(
-      new Enemy({ position: { x: waypoints[0].x - xDelay, y: waypoints[0].y } })
+      new Enemy({
+        position: { x: waypoints[0].x - xDelay, y: waypoints[0].y },
+        oleada: contadorDeOleadas,
+      })
     );
   }
+  // Incrementa el contador de oleadas cada vez que se crea una nueva oleada.
+  contadorDeOleadas++;
 }
 
 //* Vidas
@@ -125,7 +131,7 @@ function gameLoop() {
 
       //* Colision de bala con enemigo y Eliminar enemigo si su vida es menor a 0
       if (distancia < bala.enemy.radio + bala.radio) {
-        bala.enemy.vida -= 15;
+        bala.enemy.vida -= 20;
         if (bala.enemy.vida <= 0) {
           const enemyIndex = enemies.findIndex((enemy) => {
             return bala.enemy === enemy;
