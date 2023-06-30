@@ -17,17 +17,63 @@ canvas {
   border: 1px solid dodgerblue;
 }
 
-#canvasDad {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: inline-block;
-}
-
 .playAgain {
   display: absolute;
   left: 45%;
+}
+
+#firstContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+}
+
+#mainContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#canvasDad {
+  position: relative; /* Esto permite posicionar absolutamente los hijos */
+}
+
+#statsContainer {
+  position: absolute;
+  top: 20px; /* Alineación superior */
+  right: 40px; /* Alineación a la derecha */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end; /* Alinea los elementos a la derecha */
+  font-size: 30px;
+}
+
+#buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  margin-bottom: 50px;
+}
+
+.gameButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100px;
+  margin: 0 20px;
+}
+
+.home {
+  margin-left: 500px;
+}
+
+.play {
+  width: 10%;
+  margin-left: 10px;
+}
+
+.link-1 {
+  text-align: center;
 }
 
 #gameOver {
@@ -77,12 +123,6 @@ canvas {
   position: absolute;
   top: 2px;
   left: 1150px;
-}
-
-.containerDos {
-  display: inline-block;
-  background-color: black;
-  position: relative;
 }
 
 .none {
@@ -291,17 +331,6 @@ canvas {
   }
 }
 
-.header {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: "Press Start 2P", sans-serif;
-  font-weight: 200;
-  color: white;
-  font-size: 2em;
-}
-
 @-webkit-keyframes fadeIn {
   from {
     opacity: 0;
@@ -504,14 +533,6 @@ button::-moz-focus-inner {
 }
 
 /* box */
-.box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  padding: 0 4rem 2rem;
-}
 
 .box:not(:first-child) {
   height: 25rem;
@@ -542,77 +563,12 @@ button::-moz-focus-inner {
   line-height: 2;
 }
 
-/* modal */
-.modal-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
-
-  display: none;
-  justify-content: center;
-  align-items: center;
-
-  width: 100%;
-  height: 100%;
-
-  /* --m-background is set as inline style */
-  background: var(--m-background);
-}
-
-/* using :target */
-/*
-when users will click/enter button(link) browser will add a #id in a url and when that happens we'll show our users the modal that contains that id.
-*/
-.modal-container:target {
-  display: flex;
-}
-
-.modal {
-  width: 80rem;
-  padding: 4rem 2rem;
-  border-radius: 0.8rem;
-
-  color: var(--light);
-  background: var(--background);
-  box-shadow: var(--m-shadow, 0.4rem 0.4rem 10.2rem 0.2rem) var(--shadow-1);
-  position: relative;
-
-  overflow: hidden;
-}
-
-.modal__title {
-  font-size: 3.2rem;
-}
-
-.modal__text {
-  padding: 0 4rem;
-  margin-top: 4rem;
-
-  font-size: 1.6rem;
-  line-height: 2;
-}
-
 /* link-... */
 .link-1 {
   font-size: 2.8rem;
   position: absolute;
   top: 50px;
   left: 700px;
-  color: var(--light);
-  background: var(--background);
-  box-shadow: 0.4rem 0.4rem 2.4rem 0.2rem var(--shadow-1);
-  border-radius: 100rem;
-  padding: 1.4rem 3.2rem;
-
-  transition: 0.2s;
-}
-
-#homeLink {
-  font-size: 2.8rem;
-  position: absolute;
-  top: 50px;
-  left: 1700px;
   color: var(--light);
   background: var(--background);
   box-shadow: 0.4rem 0.4rem 2.4rem 0.2rem var(--shadow-1);
